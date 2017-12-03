@@ -1,0 +1,50 @@
+Fons van der Plas
+s4576586
+f.vanderplas@student.ru.nl
+
+
+Typing
+
+>>> product [1..10] ∷ Int
+>>> product [1..20] ∷ Int
+>>> product [1..21] ∷ Int
+>>> product [1..65] ∷ Int
+>>> product [1..66] ∷ Int
+
+gives the output
+
+3628800
+2432902008176640000
+-4249290049419214848
+-9223372036854775808
+0
+
+Here we see a case of 'integer overflow': integers stored in a fixed number of
+bytes have a maximum and a minimum value, and it wraps around in the case of an
+overflow, resulting in negative values.
+To explain the 0:
+65! is divisible by 2^(66//2 + 66//4 + 66//8 + etc) = 2^63
+but
+66! is divisible by 2^(66//2 + 66//4 + 66//8 + etc) = 2^64
+where '//' is integer division.
+
+This means that 66! mod 2^64 = 0, so that 66! will be represented as 0 on a
+64-bit system.
+
+Typing
+
+>>> product [1..10] ∷ Integer
+>>> product [1..20] ∷ Integer
+>>> product [1..21] ∷ Integer
+>>> product [1..65] ∷ Integer
+>>> product [1..66] ∷ Integer
+
+gives the output
+
+3628800
+2432902008176640000
+51090942171709440000
+8247650592082470666723170306785496252186258551345437492922123134388955774976000000000000000
+544344939077443064003729240247842752644293064388798874532860126869671081148416000000000000000
+
+This is the expected output. I assume that Integer has arbitrary precision.
